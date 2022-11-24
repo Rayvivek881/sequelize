@@ -1,9 +1,10 @@
 const db = require('../models');
 const Student = db.Student;
+const Department = db.Department;
 
 exports.findAll = async (req, res) => {
     try {
-        const students = await Student.findAll();
+        const students = await Student.findAll({ include: Department });
         res.status(200).send(students);
     } catch (error) {
         res.status(500).send(error.message);
@@ -21,7 +22,7 @@ exports.create = async (req, res) => {
 
 exports.findOne = async (req, res) => {
     try {
-        const student = await Student.findOne({ where: { id: req.params.id } });
+        const student = await Student.findOne({ where: { id: req.params.id }, include: Department });
         res.status(200).send(student);
     } catch (error) {
         res.status(500).send(error.message);
